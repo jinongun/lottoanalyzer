@@ -1,0 +1,20 @@
+{
+  "name": "lottoanalyzer-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "zynkn",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./compiled.js",
+    "deploy": "react-scripts build && firebase deploy",
+    "babel": "babel handler.js --out-file compiled.js"
+  },
+  "devDependencies": {
+    "serverless-bundle": "^1.2.5",
+    "serverless-offline": "^5.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "moment": "^2.24.0"
+  }
+}
