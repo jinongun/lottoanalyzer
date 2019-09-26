@@ -1,21 +1,16 @@
 import AWS from "aws-sdk";
-//import uuid from "uuid";
 import axios from "axios";
 import moment from "moment";
-//import moment from "moment";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const LOTTO_API = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo="
+export const getLatest = async (event, context, callback) => {
+  const {start, end} = event.body;
+  const range = await new Array(end-start).fill().map((v, i) => (i+start));
 
-export const create = async (event, context, callback) => {
-  console.log((event.body));
-  const arr = await new Array(100).fill().map((v,i) => (i+1));
-  for(const number of arr){
+  for(const num of range){
+    const response = await axios.get(`${LOTTO_API}${num}`).then((r) => r);
     const timestamp = new Date().getTime();
-    const response = await axios.get(`http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=${number}`).then((res) => {
-      console.log(`++++++++++++++++${number}++++++++++++`);
-    //console.log(res.data);
-      return (res.data);
-    });
     const params = {
       TableName: process.env.DYNAMODB_TABLE,
       Item: {
@@ -39,26 +34,30 @@ export const create = async (event, context, callback) => {
         price: response.drwNo < 88 ? 2000 : 1000
       },
     };
-     // write the todo to the database
-  await dynamoDb.put(params, (error) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(error),
-      });
-      return;
-    }
 
-
-  });
+    await dynamoDb.put(params, (error) => {
+      if(error) { 
+        console.log(error);
+        callback(null, {
+          statusCode: error.statusCode || 501,
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(error),
+        });
+        return;
+      }
+    });
   }
-  // create a response
+
+  callback(null, {
+    statusCode: 200,
+    body: {
+      message: `${start} to ${end} 회차 당첨 데이터 저장 성공`,
+    }
+  })
+
   const response = {
     statusCode: 200,
-    body: "success",
-  };
+    body: "The Latest Winning Number is updated successfully",
+  }
   callback(null, response);
-};
+}
