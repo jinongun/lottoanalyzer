@@ -67,7 +67,7 @@ functions:
       - http:
           path: todos/{id}
           method: get
-          cors: true
+          cors: false
 
   # update:
   #   handler: todos/update.update
@@ -94,10 +94,16 @@ resources:
           -
             AttributeName: id
             AttributeType: N
+          -
+            AttributeName: year
+            AttributeType: S
         KeySchema:
           -
             AttributeName: id
             KeyType: HASH
+          -
+            AttributeName: year
+            KeyType: RANGE
         #BillingMode: PAY_PER_REQUEST
         ProvisionedThroughput:
           ReadCapacityUnits: 1
