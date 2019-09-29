@@ -7,8 +7,7 @@ export const get = (event, context, callback) => {
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: {
-      "year": "2002",
-      "drwNo": event.pathParameters.id
+      "id": Number(event.pathParameters.id)
     }
   };
 
