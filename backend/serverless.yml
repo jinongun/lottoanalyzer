@@ -15,7 +15,7 @@ provider:
   region: ap-northeast-2
   environment:
     STAGE: ${self:provider.stage}
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-watch
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -40,6 +40,18 @@ custom:
   # DB_CONFIG: ${file(./config/config.js):DB_CONFIG}
 
 functions:
+  getData: 
+    handler: handler.getData
+    events:
+      - http:
+          path: getData
+          method: get
+  putNumber:
+    handler: handler.putNumber
+    events:
+      - http:
+          path: putNumber
+          method: post
   hello:
     handler: handler.hello
     events:
@@ -107,7 +119,7 @@ resources:
         AttributeDefinitions:
           -
             AttributeName: id
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           -
             AttributeName: id
@@ -119,3 +131,19 @@ resources:
           WriteCapacityUnits: 1
         
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+    # TodosDynamoDbTable:
+    #   Type: 'AWS::DynamoDB::Table'
+    #   DeletionPolicy: Retain
+    #   Properties:
+    #     AttributeDefinitions:
+    #       -
+    #         AttributeName: id
+    #         AttributeType: S
+    #     KeySchema:
+    #       -
+    #         AttributeName: id
+    #         KeyType: HASH
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 1
+    #       WriteCapacityUnits: 1
+    #     TableName: Lotto
