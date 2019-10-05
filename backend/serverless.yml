@@ -25,7 +25,8 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      # Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/lotto"
 
 custom:
   bundle:
@@ -40,76 +41,20 @@ custom:
   # DB_CONFIG: ${file(./config/config.js):DB_CONFIG}
 
 functions:
-  getData: 
-    handler: handler.getData
+  getNumber:
+    handler: lotto.getNumber
     events:
       - http:
-          path: getData
+          path: getNumber/{id}
           method: get
-  putNumber:
-    handler: handler.putNumber
+          cors: false
+  setNumber:
+    handler: lotto.setNumber
     events:
       - http:
-          path: putNumber
+          path: setNumber
           method: post
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
-  set:
-    handler: handler.setLottoNumber
-    events:
-      - http:
-          path: setLottoNumber
-          method: post
-  # getAll:
-  #   handler: getAll.getAll
-  #   events:
-  #     - http:
-  #         path: getAll
-  #         method: post
-  #         cors: false
-  # create:
-  #   handler: create.create
-  #   events:
-  #     - http:
-  #         path: todos
-  #         method: post
-  #         cors: false
-
-  # list:
-  #   handler: todos/list.list
-  #   events:
-  #     - http:
-  #         path: todos
-  #         method: get
-  #         cors: true
-
-  # get:
-  #   handler: get.get
-  #   events:
-  #     - http:
-  #         path: todos/{id}
-  #         method: get
-  #         cors: false
-
-  # update:
-  #   handler: todos/update.update
-  #   events:
-  #     - http:
-  #         path: todos/{id}
-  #         method: put
-  #         cors: true
-
-  # delete:
-  #   handler: todos/delete.delete
-  #   events:
-  #     - http:
-  #         path: todos/{id}
-  #         method: delete
-  #         cors: true
+          cors: false
 resources:
   Resources:
     TodosDynamoDbTable:
