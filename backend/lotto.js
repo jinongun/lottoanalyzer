@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import axios from "axios";
-import moment from "moment";
+import moment from "moment-timezone";
 
 const DYNAMO_DB = new AWS.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
@@ -11,14 +11,21 @@ export const setNumber = async (event, context, callback) => {
   //   data: response
   // } = await axios.get(`${LOTTO_URL}`)
   const data = JSON.parse(event.body);
+  const {
+    data: response
+  } = await axios.get(`${LOTTO_URL}${data.num}`);
   const params = {
-    TableName: "lotto",
+    TableName: "Lotto",
     Item: {
-      id: data.num + "",
-      test: moment().format("YYYY_MM_DD_hh_mm_ss")
+      id: response.drwNo + "",
+      year: moment(response.drwNoDate).format("YYYY"),
+      month: moment(response.drwNoData).format("MM"),
+      price: response.drwNo < 88 ? 2000 : 1000,
+      createdAt: moment().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
+      ...response
     }
   }
-  await DYNAMO_DB.put(params, (error) => {
+  await DYNAMO_DB.put(params, (error, data) => {
     if (error) {
       console.log(error);
       return {
@@ -30,22 +37,24 @@ export const setNumber = async (event, context, callback) => {
           message: JSON.stringify(error)
         }
       }
-    };
-
-
+    } else {
+      console.log(data);
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: "Put data success",
+          timestamp: moment().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
+          data: JSON.stringify(response)
+        })
+      }
+    }
   });
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "Put data success",
-      timestamp: moment().format("YYYY-MM-DD hh:mm:ss")
-    })
-  }
+
 }
 
 export const getNumber = (event, context, callback) => {
   const params = {
-    TableName: "lotto",
+    TableName: "Lotto",
     Key: {
       "id": event.pathParameters.id
     }

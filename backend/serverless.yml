@@ -26,7 +26,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       # Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/lotto"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Lotto"
 
 custom:
   bundle:
@@ -57,7 +57,7 @@ functions:
           cors: false
 resources:
   Resources:
-    TodosDynamoDbTable:
+    LottoTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
@@ -75,20 +75,4 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
-    # TodosDynamoDbTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: Lotto
+        TableName: "Lotto"
