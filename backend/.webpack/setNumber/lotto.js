@@ -427,6 +427,14 @@ module.exports = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var moment = module.exports = __webpack_require__(65);
+moment.tz.load(__webpack_require__(67));
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -849,14 +857,6 @@ exports.compareByGeneratedPositionsInflated = compareByGeneratedPositionsInflate
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var moment = module.exports = __webpack_require__(65);
-moment.tz.load(__webpack_require__(67));
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -971,7 +971,7 @@ module.exports = function createError(message, config, code, request, response) 
  */
 
 var base64VLQ = __webpack_require__(6);
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var ArraySet = __webpack_require__(7).ArraySet;
 var MappingList = __webpack_require__(28).MappingList;
 
@@ -1538,7 +1538,7 @@ exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var has = Object.prototype.hasOwnProperty;
 var hasNativeMap = typeof Map !== "undefined";
 
@@ -7157,6 +7157,8 @@ module.exports = __webpack_require__(36);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoSaveNumber", function() { return autoSaveNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scanAll", function() { return scanAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setNumber", function() { return setNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNumber", function() { return getNumber; });
 /* harmony import */ var source_map_support_register__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
@@ -7165,7 +7167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var aws_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(aws_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -7173,6 +7175,49 @@ __webpack_require__.r(__webpack_exports__);
 
 const DYNAMO_DB = new aws_sdk__WEBPACK_IMPORTED_MODULE_1___default.a.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
+const autoSaveNumber = async (event, context, callback) => {
+  let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul");
+  let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-02");
+  let duration = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default.a.duration(now.diff(start));
+  console.log("AUTO");
+  console.log(moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul"));
+  return {
+    statusCode: 201,
+    body: JSON.stringify({
+      time: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DD hh:mm:ss"),
+      msg: now.format("YYYY-MM-DD hh:mm:ss"),
+      week: ~~duration.asWeeks()
+    })
+  };
+};
+const scanAll = (event, context, callback) => {
+  console.log("SCANALL");
+  const params = {
+    TableName: "Lotto" //ProjectionExpression: "id, drwNoDate, createdAt"
+
+  };
+  DYNAMO_DB.scan(params, (err, data) => {
+    if (err) {
+      console.log(err);
+      callback(null, {
+        statusCode: err.statusCode || 501,
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: {
+          message: JSON.stringify(err)
+        }
+      });
+    }
+
+    console.log("scan Success");
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(data)
+    };
+    callback(null, response);
+  });
+};
 const setNumber = async (event, context, callback) => {
   // const {
   //   data: response
@@ -7884,7 +7929,7 @@ exports.decode = function (charCode) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 
 /**
  * Determine whether mappingB is after mappingA with respect to generated
@@ -7969,7 +8014,7 @@ exports.MappingList = MappingList;
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var binarySearch = __webpack_require__(30);
 var ArraySet = __webpack_require__(7).ArraySet;
 var base64VLQ = __webpack_require__(6);
@@ -9295,7 +9340,7 @@ exports.quickSort = function (ary, comparator) {
  */
 
 var SourceMapGenerator = __webpack_require__(5).SourceMapGenerator;
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 
 // Matches a Windows-style `\r\n` newline or a `\n` newline used by all other
 // operating systems these days (capturing the result).

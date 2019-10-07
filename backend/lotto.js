@@ -6,6 +6,54 @@ const DYNAMO_DB = new AWS.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
 
 
+
+
+export const autoSaveNumber = async (event, context, callback) => {
+  let now = moment().tz("Asia/Seoul");
+  let start = moment("2002-12-02");
+  let duration = moment.duration(now.diff(start));
+  console.log("AUTO");
+  console.log(moment().tz("Asia/Seoul"));
+
+  return {
+    statusCode: 201,
+    body: JSON.stringify({
+      time: moment().format("YYYY-MM-DD hh:mm:ss"),
+      msg: now.format("YYYY-MM-DD hh:mm:ss"),
+      week: ~~duration.asWeeks()
+    })
+  }
+}
+export const scanAll =  (event, context, callback) => {
+  console.log("SCANALL")
+  const params = {
+    TableName: "Lotto"
+    //ProjectionExpression: "id, drwNoDate, createdAt"
+  }
+
+  DYNAMO_DB.scan(params, (err, data) => {
+    if(err) {
+      console.log(err);
+      callback(null, {
+        statusCode: err.statusCode || 501,
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: {
+          message: JSON.stringify(err)
+        }
+      })
+    }
+    console.log("scan Success");
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(data)
+    };
+    callback(null, response);
+  });
+
+}
+
 export const setNumber = async (event, context, callback) => {
   // const {
   //   data: response

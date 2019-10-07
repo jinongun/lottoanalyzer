@@ -41,6 +41,20 @@ custom:
   # DB_CONFIG: ${file(./config/config.js):DB_CONFIG}
 
 functions:
+  autoSaveNumber:
+    handler: lotto.autoSaveNumber
+    events:
+      - http:
+          path: autoSaveNumber
+          method: get
+          cors: false
+  scanAll:
+    handler: lotto.scanAll
+    events:
+      - http:
+          path: scanAll
+          method: get
+          cors: false
   getNumber:
     handler: lotto.getNumber
     events:
