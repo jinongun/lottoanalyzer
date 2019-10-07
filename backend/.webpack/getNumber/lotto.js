@@ -7184,7 +7184,7 @@ const setNumber = async (event, context, callback) => {
   const params = {
     TableName: "Lotto",
     Item: {
-      id: response.drwNo + "",
+      id: (response.drwNo + "").padStart(4, "0"),
       year: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("YYYY"),
       month: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoData).format("MM"),
       price: response.drwNo < 88 ? 2000 : 1000,

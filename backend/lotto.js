@@ -17,7 +17,7 @@ export const setNumber = async (event, context, callback) => {
   const params = {
     TableName: "Lotto",
     Item: {
-      id: response.drwNo + "",
+      id: (response.drwNo+"").padStart(4, "0"),
       year: moment(response.drwNoDate).format("YYYY"),
       month: moment(response.drwNoData).format("MM"),
       price: response.drwNo < 88 ? 2000 : 1000,
