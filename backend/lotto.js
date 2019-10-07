@@ -9,7 +9,8 @@ const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo
 
 
 export const autoSaveNumber = async (event, context, callback) => {
-  let now = moment().tz("Asia/Seoul");
+  //let now = moment("2019-10-12").tz("Asia/Seoul");
+  let now = moment("2019-10-13")
   let start = moment("2002-12-02");
   let duration = moment.duration(now.diff(start));
   console.log("AUTO");
@@ -18,13 +19,16 @@ export const autoSaveNumber = async (event, context, callback) => {
   return {
     statusCode: 201,
     body: JSON.stringify({
-      time: moment().format("YYYY-MM-DD hh:mm:ss"),
-      msg: now.format("YYYY-MM-DD hh:mm:ss"),
-      week: ~~duration.asWeeks()
+      time: moment().format("YYYY-MM-DD hh:mm:ss a"),
+      jp: moment().tz("Asia/Tokyo").format("YYYY-MM-DD hh:mm:ss a"),
+      cn: moment().tz("Asia/Shanghai").format("YYYY-MM-DD hh:mm:ss a"),
+      th: moment().tz("Asia/Bangkok").format("YYYY-MM-DD hh:mm:ss a"),
+      ko: now.format("YYYY-MM-DD hh:mm:ss a"),
+      week: duration.asWeeks()
     })
   }
 }
-export const scanAll =  (event, context, callback) => {
+export const scanAll = (event, context, callback) => {
   console.log("SCANALL")
   const params = {
     TableName: "Lotto"
@@ -32,7 +36,7 @@ export const scanAll =  (event, context, callback) => {
   }
 
   DYNAMO_DB.scan(params, (err, data) => {
-    if(err) {
+    if (err) {
       console.log(err);
       callback(null, {
         statusCode: err.statusCode || 501,
@@ -65,7 +69,7 @@ export const setNumber = async (event, context, callback) => {
   const params = {
     TableName: "Lotto",
     Item: {
-      id: (response.drwNo+"").padStart(4, "0"),
+      id: (response.drwNo + "").padStart(4, "0"),
       year: moment(response.drwNoDate).format("YYYY"),
       month: moment(response.drwNoData).format("MM"),
       price: response.drwNo < 88 ? 2000 : 1000,

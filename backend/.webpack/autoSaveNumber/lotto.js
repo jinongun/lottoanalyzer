@@ -7176,7 +7176,8 @@ __webpack_require__.r(__webpack_exports__);
 const DYNAMO_DB = new aws_sdk__WEBPACK_IMPORTED_MODULE_1___default.a.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
 const autoSaveNumber = async (event, context, callback) => {
-  let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul");
+  //let now = moment("2019-10-12").tz("Asia/Seoul");
+  let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2019-10-13");
   let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-02");
   let duration = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default.a.duration(now.diff(start));
   console.log("AUTO");
@@ -7184,9 +7185,12 @@ const autoSaveNumber = async (event, context, callback) => {
   return {
     statusCode: 201,
     body: JSON.stringify({
-      time: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DD hh:mm:ss"),
-      msg: now.format("YYYY-MM-DD hh:mm:ss"),
-      week: ~~duration.asWeeks()
+      time: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DD hh:mm:ss a"),
+      jp: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Tokyo").format("YYYY-MM-DD hh:mm:ss a"),
+      cn: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Shanghai").format("YYYY-MM-DD hh:mm:ss a"),
+      th: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Bangkok").format("YYYY-MM-DD hh:mm:ss a"),
+      ko: now.format("YYYY-MM-DD hh:mm:ss a"),
+      week: duration.asWeeks()
     })
   };
 };
