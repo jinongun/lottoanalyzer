@@ -58,50 +58,42 @@ export const scanAll = (event, context, callback) => {
 
 }
 
-export const setNumber = async (event, context, callback) => {
-  // const {
-  //   data: response
-  // } = await axios.get(`${LOTTO_URL}`)
-  const data = JSON.parse(event.body);
-  const {
-    data: response
-  } = await axios.get(`${LOTTO_URL}${data.num}`);
-  const params = {
-    TableName: "Lotto",
-    Item: {
-      id: (response.drwNo + "").padStart(4, "0"),
-      year: moment(response.drwNoDate).format("YYYY"),
-      month: moment(response.drwNoData).format("MM"),
-      price: response.drwNo < 88 ? 2000 : 1000,
-      createdAt: moment().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
-      ...response
+export const setNumber = async (event, context, callback ) => {
+    const data = JSON.parse(event.body);
+    const {
+      data: response
+    } = await axios.get(`${LOTTO_URL}${data.num}`);
+    const params = {
+      TableName: "Lotto",
+      Item: {
+        id: (data.num).padStart(4, "0"),
+        createdAt: moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
+        ...response
+      }
     }
-  }
-  await DYNAMO_DB.put(params, (error, data) => {
-    if (error) {
-      console.log(error);
-      return {
-        statusCode: error.statusCode || 501,
-        headers: {
-          "Content-Type": "text/plain"
-        },
-        body: {
-          message: JSON.stringify(error)
+    if(response.returnValue == "success"){
+      DYNAMO_DB.put(params, (error) => {
+        if(error) {
+          console.log(error);
+          const res = {
+            statusCode: error.statusCode || 501,
+            body: JSON.stringify(error)
+          }
+          callback(null, res);
         }
-      }
-    } else {
-      console.log(data);
-      return {
+      });
+      const res = {
         statusCode: 200,
-        body: JSON.stringify({
-          message: "Put data success",
-          timestamp: moment().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
-          data: JSON.stringify(response)
-        })
-      }
+        body: JSON.stringify({msg: "SUCCESS", ...params})
+      };
+      callback(null, res);
+    }else{
+      const res = {
+        statusCode: 200,
+        body: JSON.stringify({msg: "FAILURE", ...params})
+      };
+      callback(null, res);
     }
-  });
-
 }
 
 export const getNumber = (event, context, callback) => {

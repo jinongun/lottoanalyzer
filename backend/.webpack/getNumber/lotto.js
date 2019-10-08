@@ -7223,9 +7223,6 @@ const scanAll = (event, context, callback) => {
   });
 };
 const setNumber = async (event, context, callback) => {
-  // const {
-  //   data: response
-  // } = await axios.get(`${LOTTO_URL}`)
   const data = JSON.parse(event.body);
   const {
     data: response
@@ -7233,38 +7230,41 @@ const setNumber = async (event, context, callback) => {
   const params = {
     TableName: "Lotto",
     Item: {
-      id: (response.drwNo + "").padStart(4, "0"),
-      year: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("YYYY"),
-      month: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoData).format("MM"),
-      price: response.drwNo < 88 ? 2000 : 1000,
-      createdAt: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
+      id: data.num.padStart(4, "0"),
+      createdAt: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
       ...response
     }
   };
-  await DYNAMO_DB.put(params, (error, data) => {
-    if (error) {
-      console.log(error);
-      return {
-        statusCode: error.statusCode || 501,
-        headers: {
-          "Content-Type": "text/plain"
-        },
-        body: {
-          message: JSON.stringify(error)
-        }
-      };
-    } else {
-      console.log(data);
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: "Put data success",
-          timestamp: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul").format("YYYY-MM-DD hh:mm:ss"),
-          data: JSON.stringify(response)
-        })
-      };
-    }
-  });
+
+  if (response.returnValue == "success") {
+    DYNAMO_DB.put(params, error => {
+      if (error) {
+        console.log(error);
+        const res = {
+          statusCode: error.statusCode || 501,
+          body: JSON.stringify(error)
+        };
+        callback(null, res);
+      }
+    });
+    const res = {
+      statusCode: 200,
+      body: JSON.stringify({
+        msg: "SUCCESS",
+        ...params
+      })
+    };
+    callback(null, res);
+  } else {
+    const res = {
+      statusCode: 200,
+      body: JSON.stringify({
+        msg: "FAILURE",
+        ...params
+      })
+    };
+    callback(null, res);
+  }
 };
 const getNumber = (event, context, callback) => {
   const params = {
