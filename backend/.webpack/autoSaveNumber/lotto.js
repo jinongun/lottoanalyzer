@@ -91,7 +91,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 var isBuffer = __webpack_require__(37);
 
 /*global toString:true*/
@@ -427,14 +427,6 @@ module.exports = {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var moment = module.exports = __webpack_require__(65);
-moment.tz.load(__webpack_require__(67));
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -857,6 +849,14 @@ exports.compareByGeneratedPositionsInflated = compareByGeneratedPositionsInflate
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var moment = module.exports = __webpack_require__(65);
+moment.tz.load(__webpack_require__(67));
+
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -941,7 +941,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(12);
+var enhanceError = __webpack_require__(13);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -963,6 +963,12 @@ module.exports = function createError(message, config, code, request, response) 
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(36);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -970,9 +976,9 @@ module.exports = function createError(message, config, code, request, response) 
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var base64VLQ = __webpack_require__(6);
-var util = __webpack_require__(2);
-var ArraySet = __webpack_require__(7).ArraySet;
+var base64VLQ = __webpack_require__(7);
+var util = __webpack_require__(1);
+var ArraySet = __webpack_require__(8).ArraySet;
 var MappingList = __webpack_require__(28).MappingList;
 
 /**
@@ -1382,7 +1388,7 @@ exports.SourceMapGenerator = SourceMapGenerator;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -1528,7 +1534,7 @@ exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -1538,7 +1544,7 @@ exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(2);
+var util = __webpack_require__(1);
 var has = Object.prototype.hasOwnProperty;
 var hasNativeMap = typeof Map !== "undefined";
 
@@ -1655,7 +1661,7 @@ exports.ArraySet = ArraySet;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1673,7 +1679,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1685,7 +1691,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1790,7 +1796,7 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1822,7 +1828,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1871,24 +1877,24 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var url = __webpack_require__(16);
-var http = __webpack_require__(13);
-var https = __webpack_require__(14);
+var url = __webpack_require__(17);
+var http = __webpack_require__(14);
+var https = __webpack_require__(15);
 var assert = __webpack_require__(44);
 var Writable = __webpack_require__(45).Writable;
 var debug = __webpack_require__(46)("follow-redirects");
@@ -2211,13 +2217,13 @@ module.exports.wrap = wrap;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2448,7 +2454,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2506,7 +2512,7 @@ module.exports = function mergeConfig(config1, config2) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2532,7 +2538,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var require;//! moment.js
@@ -7140,16 +7146,10 @@ module.exports = Cancel;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(66)(module)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("aws-sdk");
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(36);
 
 /***/ }),
 /* 23 */
@@ -7163,11 +7163,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNumber", function() { return getNumber; });
 /* harmony import */ var source_map_support_register__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 /* harmony import */ var source_map_support_register__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(source_map_support_register__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var aws_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var aws_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
 /* harmony import */ var aws_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(aws_sdk__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -7176,23 +7176,71 @@ __webpack_require__.r(__webpack_exports__);
 const DYNAMO_DB = new aws_sdk__WEBPACK_IMPORTED_MODULE_1___default.a.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
 const autoSaveNumber = async (event, context, callback) => {
-  //let now = moment("2019-10-12").tz("Asia/Seoul");
-  let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2019-10-13");
-  let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-02");
-  let duration = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default.a.duration(now.diff(start));
-  console.log("AUTO");
-  console.log(moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul"));
-  return {
-    statusCode: 201,
-    body: JSON.stringify({
-      time: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DD hh:mm:ss a"),
-      jp: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Tokyo").format("YYYY-MM-DD hh:mm:ss a"),
-      cn: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Shanghai").format("YYYY-MM-DD hh:mm:ss a"),
-      th: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Bangkok").format("YYYY-MM-DD hh:mm:ss a"),
-      ko: now.format("YYYY-MM-DD hh:mm:ss a"),
-      week: duration.asWeeks()
-    })
+  let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul");
+  let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-09");
+  let no = ~~moment_timezone__WEBPACK_IMPORTED_MODULE_3___default.a.duration(now.diff(start)).asWeeks() + 1;
+  console.log(no);
+  const {
+    data: response
+  } = await axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`${LOTTO_URL}${no}`);
+
+  if (response.returnValue !== "success") {
+    const res = {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: `THE ${no}th WINNING NUMBERS ARE NOT UPDATED YET.`
+      })
+    };
+    callback(null, res);
+    return;
+  }
+
+  const getParams = {
+    TableName: "Lotto",
+    Key: {
+      "id": no
+    }
   };
+  console.log(response);
+  DYNAMO_DB.get(getParams, (error, result) => {
+    console.log(result);
+
+    if (error) {
+      callback(null, {
+        statusCode: error.statusCode || 501,
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify({
+          message: `DYNAMO_DB GET() METHODE ERROR.`
+        })
+      });
+      return;
+    }
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(result.Item)
+    };
+    callback(null, response);
+  }); // const params = {
+  //   TableName: "Lotto",
+  //   Item: {
+  //     id: (no),
+  //     year: now.format("YYYY"),
+  //     month: now.format("MM"),
+  //     price: 2000,
+  //     createdAt: moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
+  //     ...response
+  //   }
+  // }
+  // return {
+  //   statusCode: 201,
+  //   body: JSON.stringify({
+  //     time: moment().format("YYYY-MM-DD hh:mm:ss a"),
+  //     week: duration.asWeeks()
+  //   })
+  // }
 };
 const scanAll = (event, context, callback) => {
   console.log("SCANALL");
@@ -7844,7 +7892,7 @@ exports.install = function(options) {
  * Licensed under the New BSD license. See LICENSE.txt or:
  * http://opensource.org/licenses/BSD-3-Clause
  */
-exports.SourceMapGenerator = __webpack_require__(5).SourceMapGenerator;
+exports.SourceMapGenerator = __webpack_require__(6).SourceMapGenerator;
 exports.SourceMapConsumer = __webpack_require__(29).SourceMapConsumer;
 exports.SourceNode = __webpack_require__(32).SourceNode;
 
@@ -7933,7 +7981,7 @@ exports.decode = function (charCode) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(2);
+var util = __webpack_require__(1);
 
 /**
  * Determine whether mappingB is after mappingA with respect to generated
@@ -8018,10 +8066,10 @@ exports.MappingList = MappingList;
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(2);
+var util = __webpack_require__(1);
 var binarySearch = __webpack_require__(30);
-var ArraySet = __webpack_require__(7).ArraySet;
-var base64VLQ = __webpack_require__(6);
+var ArraySet = __webpack_require__(8).ArraySet;
+var base64VLQ = __webpack_require__(7);
 var quickSort = __webpack_require__(31).quickSort;
 
 function SourceMapConsumer(aSourceMap) {
@@ -9343,8 +9391,8 @@ exports.quickSort = function (ary, comparator) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var SourceMapGenerator = __webpack_require__(5).SourceMapGenerator;
-var util = __webpack_require__(2);
+var SourceMapGenerator = __webpack_require__(6).SourceMapGenerator;
+var util = __webpack_require__(1);
 
 // Matches a Windows-style `\r\n` newline or a `\n` newline used by all other
 // operating systems these days (capturing the result).
@@ -9777,10 +9825,10 @@ module.exports = require("module");
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 var Axios = __webpack_require__(38);
-var mergeConfig = __webpack_require__(18);
-var defaults = __webpack_require__(10);
+var mergeConfig = __webpack_require__(19);
+var defaults = __webpack_require__(11);
 
 /**
  * Create an instance of Axios
@@ -9813,9 +9861,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(19);
+axios.Cancel = __webpack_require__(20);
 axios.CancelToken = __webpack_require__(63);
-axios.isCancel = __webpack_require__(9);
+axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -9857,7 +9905,7 @@ var utils = __webpack_require__(0);
 var buildURL = __webpack_require__(3);
 var InterceptorManager = __webpack_require__(39);
 var dispatchRequest = __webpack_require__(40);
-var mergeConfig = __webpack_require__(18);
+var mergeConfig = __webpack_require__(19);
 
 /**
  * Create a new instance of Axios
@@ -10007,8 +10055,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(41);
-var isCancel = __webpack_require__(9);
-var defaults = __webpack_require__(10);
+var isCancel = __webpack_require__(10);
+var defaults = __webpack_require__(11);
 var isAbsoluteURL = __webpack_require__(61);
 var combineURLs = __webpack_require__(62);
 
@@ -10145,17 +10193,17 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(11);
+var settle = __webpack_require__(12);
 var buildURL = __webpack_require__(3);
-var http = __webpack_require__(13);
-var https = __webpack_require__(14);
-var httpFollow = __webpack_require__(15).http;
-var httpsFollow = __webpack_require__(15).https;
-var url = __webpack_require__(16);
+var http = __webpack_require__(14);
+var https = __webpack_require__(15);
+var httpFollow = __webpack_require__(16).http;
+var httpsFollow = __webpack_require__(16).https;
+var url = __webpack_require__(17);
 var zlib = __webpack_require__(55);
 var pkg = __webpack_require__(56);
 var createError = __webpack_require__(4);
-var enhanceError = __webpack_require__(12);
+var enhanceError = __webpack_require__(13);
 
 var isHttps = /https:?/;
 
@@ -10457,7 +10505,7 @@ if (typeof process === 'undefined' || process.type === 'renderer') {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(17);
+exports = module.exports = __webpack_require__(18);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -10823,7 +10871,7 @@ var util = __webpack_require__(51);
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(17);
+exports = module.exports = __webpack_require__(18);
 exports.init = init;
 exports.log = log;
 exports.formatArgs = formatArgs;
@@ -11196,7 +11244,7 @@ module.exports = JSON.parse("{\"name\":\"axios\",\"version\":\"0.19.0\",\"descri
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(11);
+var settle = __webpack_require__(12);
 var buildURL = __webpack_require__(3);
 var parseHeaders = __webpack_require__(58);
 var isURLSameOrigin = __webpack_require__(59);
@@ -11613,7 +11661,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(19);
+var Cancel = __webpack_require__(20);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -11719,9 +11767,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	/*global define*/
 	if ( true && module.exports) {
-		module.exports = factory(__webpack_require__(20)); // Node
+		module.exports = factory(__webpack_require__(21)); // Node
 	} else if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(21)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));                 // AMD
