@@ -7183,7 +7183,7 @@ const autoSaveNumber = (event, context, callback) => {
   axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`${LOTTO_URL}${no}`).then(({
     data: response
   }) => {
-    if (response.returnValue !== "success") {
+    if (response.returnValue !== "success" || response.totSellamnt === 0) {
       const res = {
         statusCode: 200,
         body: JSON.stringify({
