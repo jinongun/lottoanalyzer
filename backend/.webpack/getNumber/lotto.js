@@ -427,6 +427,14 @@ module.exports = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var moment = module.exports = __webpack_require__(65);
+moment.tz.load(__webpack_require__(67));
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -849,14 +857,6 @@ exports.compareByGeneratedPositionsInflated = compareByGeneratedPositionsInflate
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var moment = module.exports = __webpack_require__(65);
-moment.tz.load(__webpack_require__(67));
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -977,7 +977,7 @@ module.exports = __webpack_require__(36);
  */
 
 var base64VLQ = __webpack_require__(7);
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var ArraySet = __webpack_require__(8).ArraySet;
 var MappingList = __webpack_require__(28).MappingList;
 
@@ -1544,7 +1544,7 @@ exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var has = Object.prototype.hasOwnProperty;
 var hasNativeMap = typeof Map !== "undefined";
 
@@ -7167,7 +7167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var aws_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(aws_sdk__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -7175,72 +7175,90 @@ __webpack_require__.r(__webpack_exports__);
 
 const DYNAMO_DB = new aws_sdk__WEBPACK_IMPORTED_MODULE_1___default.a.DynamoDB.DocumentClient();
 const LOTTO_URL = "http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
-const autoSaveNumber = async (event, context, callback) => {
+const autoSaveNumber = (event, context, callback) => {
   let now = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul");
-  let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-09");
+  let start = moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()("2002-12-02");
   let no = ~~moment_timezone__WEBPACK_IMPORTED_MODULE_3___default.a.duration(now.diff(start)).asWeeks() + 1;
   console.log(no);
-  const {
+  axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`${LOTTO_URL}${no}`).then(({
     data: response
-  } = await axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`${LOTTO_URL}${no}`);
-
-  if (response.returnValue !== "success") {
-    const res = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: `THE ${no}th WINNING NUMBERS ARE NOT UPDATED YET.`
-      })
-    };
-    callback(null, res);
-    return;
-  }
-
-  const getParams = {
-    TableName: "Lotto",
-    Key: {
-      "id": no
-    }
-  };
-  console.log(response);
-  DYNAMO_DB.get(getParams, (error, result) => {
-    console.log(result);
-
-    if (error) {
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: {
-          "Content-Type": "text/plain"
-        },
+  }) => {
+    if (response.returnValue !== "success") {
+      const res = {
+        statusCode: 200,
         body: JSON.stringify({
-          message: `DYNAMO_DB GET() METHODE ERROR.`
+          message: `THE ${no}th WINNING NUMBERS ARE NOT UPDATED YET.`
         })
-      });
+      };
+      callback(null, res);
       return;
-    }
+    } else {
+      console.log("gogogo");
+      const getParams = {
+        TableName: "Lotto",
+        Key: {
+          "id": no.toString()
+        }
+      };
+      DYNAMO_DB.get(getParams, (error, result) => {
+        console.log(result);
 
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(result.Item)
-    };
-    callback(null, response);
-  }); // const params = {
-  //   TableName: "Lotto",
-  //   Item: {
-  //     id: (no),
-  //     year: now.format("YYYY"),
-  //     month: now.format("MM"),
-  //     price: 2000,
-  //     createdAt: moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
-  //     ...response
-  //   }
-  // }
-  // return {
-  //   statusCode: 201,
-  //   body: JSON.stringify({
-  //     time: moment().format("YYYY-MM-DD hh:mm:ss a"),
-  //     week: duration.asWeeks()
-  //   })
-  // }
+        if (error) {
+          console.log(error);
+          callback(null, {
+            statusCode: error.statusCode || 501,
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify(getParams)
+          });
+          return;
+        }
+
+        if (Object.keys(result).length === 0 && result.constructor === Object) {
+          const price = no < 88 ? 2000 : 1000;
+          const putParams = {
+            TableName: "Lotto",
+            Item: {
+              id: no + "",
+              price: price,
+              year: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("YYYY"),
+              month: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("MM"),
+              total: response.totSellamnt / price,
+              createdAt: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
+              ...response
+            }
+          };
+          console.log("PUT");
+          console.log(putParams);
+          DYNAMO_DB.put(putParams, error => {
+            if (error) {
+              console.log(error);
+              const putErrResponse = {
+                statusCode: error.statusCode || 501,
+                body: JSON.stringify(error)
+              };
+              callback(null, putErrResponse);
+            }
+          });
+          const putResponse = {
+            statusCode: 200,
+            body: JSON.stringify({
+              msg: "SUCCESS",
+              ...putParams
+            })
+          };
+          callback(null, putResponse);
+        } else {
+          const getResponse = {
+            statusCode: 200,
+            body: JSON.stringify(result.Item)
+          };
+          callback(null, getResponse);
+        }
+      });
+    }
+  });
 };
 const scanAll = (event, context, callback) => {
   console.log("SCANALL");
@@ -7275,10 +7293,15 @@ const setNumber = async (event, context, callback) => {
   const {
     data: response
   } = await axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`${LOTTO_URL}${data.num}`);
+  const price = data.num < 88 ? 2000 : 1000;
   const params = {
     TableName: "Lotto",
     Item: {
-      id: data.num.padStart(4, "0"),
+      id: data.num + "",
+      price: price,
+      year: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("YYYY"),
+      month: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()(response.drwNoDate).format("MM"),
+      total: response.totSellamnt / price,
       createdAt: moment_timezone__WEBPACK_IMPORTED_MODULE_3___default()().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
       ...response
     }
@@ -7981,7 +8004,7 @@ exports.decode = function (charCode) {
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 
 /**
  * Determine whether mappingB is after mappingA with respect to generated
@@ -8066,7 +8089,7 @@ exports.MappingList = MappingList;
  * http://opensource.org/licenses/BSD-3-Clause
  */
 
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 var binarySearch = __webpack_require__(30);
 var ArraySet = __webpack_require__(8).ArraySet;
 var base64VLQ = __webpack_require__(7);
@@ -9392,7 +9415,7 @@ exports.quickSort = function (ary, comparator) {
  */
 
 var SourceMapGenerator = __webpack_require__(6).SourceMapGenerator;
-var util = __webpack_require__(1);
+var util = __webpack_require__(2);
 
 // Matches a Windows-style `\r\n` newline or a `\n` newline used by all other
 // operating systems these days (capturing the result).
