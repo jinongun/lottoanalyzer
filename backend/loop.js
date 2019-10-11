@@ -33,3 +33,95 @@ go();
 // }
 
 // test();
+const filteredValues = obj.value.map((i)=>{
+  const filteredImages = i.descImages.filter((j)=>{
+    if(j.langs.includes(param)){
+      return j;
+    }
+  });
+  return {...i, descImages: filteredImages};
+});
+const result = {...obj, value: filteredValues};
+
+var input =  {
+  "key" : "popup",
+  "__v" : 0,
+  "value" : [ 
+      {
+          "url" : "test2",
+          "descImages" : [ 
+              {
+                  "img" : "/popup/list_0/img_0/1570516240629.png",
+                  "langs" : "ko, ja"
+              }, 
+              {
+                  "img" : "/popup/list_1/img_1/1570516624306.png",
+                  "langs" : "en"
+              }
+          ]
+      }, 
+      {
+        "url" : "test3",
+          "descImages" : [ 
+              {
+                  "langs" : "ja, en",
+                  "img" : "/popup/list_1/img_0/1570519106446.png"
+              }
+          ],
+          
+      }
+  ]
+}
+
+function makePopupList(arr){
+  const popupList = arr.map(lang => {
+    let listItem = {
+      lang: lang,
+      list: []
+    };
+    input.value.forEach(item => {
+      const URL = item.url;
+      const IMG = item.descImages.find(jtem => {
+
+        if(jtem.langs.includes(lang)){ return jtem.img }
+      });
+      listItem.list.push({ url: URL, img: { ...IMG } });
+    });
+    return listItem;
+  });
+  console.log(popupList);
+}
+makePopupList(["ko","en","ja"]);
+var data = {
+  "popupList": [
+  {
+      "lang": "ko",
+      "list": [
+          {
+              "url": "url1",
+              "img": "/popup/list_0/img_0/1570516240629.png"
+          },
+          {
+              "url": "url2",
+              "img": "/popup/list_0/img_0/1570516240629.png"
+          },
+          {
+              "url": "url3",
+              "img": "/popup/list_0/img_0/1570516240629.png"
+          }
+      ]
+  },
+  {
+      "lang": "en",
+      "list": [
+          {
+              "url": "url4",
+              "img": "/popup/list_0/img_0/1570516240629.png"
+          },
+          {
+              "url": "url5",
+              "img": "/popup/list_0/img_0/1570516240629.png"
+          }
+      ]
+  }
+]}
