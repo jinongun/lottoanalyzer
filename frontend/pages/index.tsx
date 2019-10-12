@@ -3,55 +3,56 @@ import Layout from '../components/Layout'
 import { NextPage } from 'next'
 import { Lotto } from '../interfaces'
 import axios from 'axios'
-import {numberToWon} from '../utils';
+import { numberToWon } from '../utils';
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import WinNumBox from "../components/WinNumBox";
 
-const IndexPage: NextPage = ({data}:any) => {
+const IndexPage: NextPage = ({ data }: any) => {
   const [numbers, setNumbers] = React.useState([]);
-  React.useEffect(()=>{
-    setNumbers(data.Items.sort((a:Lotto, b:Lotto) => {
-      if(a.drwNo > b.drwNo){
+  React.useEffect(() => {
+    setNumbers(data.Items.sort((a: Lotto, b: Lotto) => {
+      if (a.drwNo > b.drwNo) {
         return 1;
-      }else if(a.drwNo < b.drwNo){
+      } else if (a.drwNo < b.drwNo) {
         return -1;
-      }else{
+      } else {
         return 0;
       }
     }));
-  },[]);
-  function getMaximum(){
-    const maximum = data.Items.reduce((prev:Lotto, cur:Lotto) => prev.totSellamnt > cur.totSellamnt ? prev : cur)
+  }, []);
+  function getMaximum() {
+    const maximum = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.totSellamnt > cur.totSellamnt ? prev : cur)
     return maximum;
   }
-  function getMinimum(){
-    const minimum = data.Items.reduce((prev:Lotto, cur:Lotto) => prev.totSellamnt > cur.totSellamnt ? cur : prev)
+  function getMinimum() {
+    const minimum = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.totSellamnt > cur.totSellamnt ? cur : prev)
     return minimum;
   }
-  function totalSellAmount(){
-    const total = data.Items.reduce((acc:number, cur:Lotto) => acc+cur.totSellamnt, 0);
+  function totalSellAmount() {
+    const total = data.Items.reduce((acc: number, cur: Lotto) => acc + cur.totSellamnt, 0);
     return total;
   }
-  function getMaxFirstWinAmnt(){
-    const max = data.Items.reduce((prev:Lotto, cur:Lotto) => prev.firstWinamnt > cur.firstWinamnt ? prev : cur)
+  function getMaxFirstWinAmnt() {
+    const max = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.firstWinamnt > cur.firstWinamnt ? prev : cur)
     return max;
   }
-  function getMinFirstWinAmnt(){
-    const min = data.Items.reduce((prev:Lotto, cur:Lotto) => (prev.firstWinamnt !== 0) && (cur.firstWinamnt !== 0) && prev.firstWinamnt > cur.firstWinamnt ? cur : prev)
+  function getMinFirstWinAmnt() {
+    const min = data.Items.reduce((prev: Lotto, cur: Lotto) => (prev.firstWinamnt !== 0) && (cur.firstWinamnt !== 0) && prev.firstWinamnt > cur.firstWinamnt ? cur : prev)
     return min;
   }
-  function distributes(){
-    let temp:any = new Array(45).fill(0);
+  function distributes() {
+    let temp: any = new Array(45).fill(0);
 
-    data.Items.forEach((item:any) => {
-      for(let i=1; i<=6; i++){
-        temp[item[`drwtNo${i}`]-1]++;
+    data.Items.forEach((item: any) => {
+      for (let i = 1; i <= 6; i++) {
+        temp[item[`drwtNo${i}`] - 1]++;
       }
     });
-    let arr = temp.map((item:any, index:number)=>{
+    let arr = temp.map((item: any, index: number) => {
       return {
-        key: index+1,
+        key: index + 1,
         value: item
       }
     })
@@ -88,8 +89,7 @@ const IndexPage: NextPage = ({data}:any) => {
         <Tooltip />
         <Bar dataKey="value" fill="#8884d8" />
       </BarChart>
-      {JSON.stringify(distributes())}
-      <h2>{JSON.stringify(numbers)}</h2>
+      <WinNumBox numbers={numbers} />
     </Layout>
   )
 }

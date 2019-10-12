@@ -33,4 +33,5 @@ export interface Lotto {
   drwtNo4: number
   drwtNo5: number
   drwtNo6: number
+  [key: string]: any
 }
