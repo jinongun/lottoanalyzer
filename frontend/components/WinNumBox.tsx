@@ -13,7 +13,7 @@ const WinNumBox: React.FunctionComponent<Props> = ({ numbers }) => {
         numbers.map((item: Lotto, index: number) => {
           return (
             <div className="WinNumBox">
-              <span>{item.drwNo}</span>
+              
               {
                 new Array(45).fill(0).map((i: number, index: number) => {
                   return (
@@ -30,6 +30,7 @@ const WinNumBox: React.FunctionComponent<Props> = ({ numbers }) => {
                   )
                 })
               }
+              <span>{item.drwNo}</span>
             </div>
           )
         })

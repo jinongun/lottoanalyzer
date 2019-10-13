@@ -8,94 +8,116 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import WinNumBox from "../components/WinNumBox";
+import LatestLottoBox from "../components/LatestLottoBox";
 
 const IndexPage: NextPage = ({ data }: any) => {
-  const [numbers, setNumbers] = React.useState([]);
-  React.useEffect(() => {
-    setNumbers(data.Items.sort((a: Lotto, b: Lotto) => {
-      if (a.drwNo > b.drwNo) {
+  //console.log(data);
+  const [totalRank, setTotalRank]:any = React.useState({});
+  /*
+    ranking: {
+      1: {
+        totSellamnt: {
+          value: 1,
+          with: [44]
+        }, //전체 판매 금액
+        firstPrzwnerCo: {
+          value: 5,
+          with: [412,423]
+        }, // 1등 당첨자 수
+        amount: {
+          value: 3,
+          with: [12,5]
+        },  // 1등 당첨 금액
+      } 
+    }
+  */
+  React.useEffect(()=> {
+    const arr1:Array<Lotto> = Object.values(data);
+    const arr2:Array<Lotto> = Object.values(data);
+    const arr3:Array<Lotto> = Object.values(data);
+    const totSellamnt:Array<Lotto> = arr1.sort((a:Lotto, b:Lotto) => {
+      if(a.totSellamnt < b.totSellamnt){
         return 1;
-      } else if (a.drwNo < b.drwNo) {
+      }else if(a.totSellamnt > b.totSellamnt){
         return -1;
-      } else {
+      }else{
         return 0;
       }
-    }));
-  }, []);
-  function getMaximum() {
-    const maximum = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.totSellamnt > cur.totSellamnt ? prev : cur)
-    return maximum;
-  }
-  function getMinimum() {
-    const minimum = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.totSellamnt > cur.totSellamnt ? cur : prev)
-    return minimum;
-  }
-  function totalSellAmount() {
-    const total = data.Items.reduce((acc: number, cur: Lotto) => acc + cur.totSellamnt, 0);
-    return total;
-  }
-  function getMaxFirstWinAmnt() {
-    const max = data.Items.reduce((prev: Lotto, cur: Lotto) => prev.firstWinamnt > cur.firstWinamnt ? prev : cur)
-    return max;
-  }
-  function getMinFirstWinAmnt() {
-    const min = data.Items.reduce((prev: Lotto, cur: Lotto) => (prev.firstWinamnt !== 0) && (cur.firstWinamnt !== 0) && prev.firstWinamnt > cur.firstWinamnt ? cur : prev)
-    return min;
-  }
-  function distributes() {
-    let temp: any = new Array(45).fill(0);
-
-    data.Items.forEach((item: any) => {
-      for (let i = 1; i <= 6; i++) {
-        temp[item[`drwtNo${i}`] - 1]++;
+    });
+    const firstPrzwnerCo:Array<Lotto> = arr2.sort((a:Lotto, b:Lotto) => {
+      if(a.firstPrzwnerCo < b.firstPrzwnerCo){
+        return 1;
+      }else if(a.firstPrzwnerCo > b.firstPrzwnerCo){
+        return -1;
+      }else{
+        return 0;
       }
     });
-    let arr = temp.map((item: any, index: number) => {
-      return {
-        key: index + 1,
-        value: item
+    const firstWinamnt:Array<Lotto> = arr3.sort((a:Lotto, b:Lotto) => {
+      if(a.firstWinamnt < b.firstWinamnt){
+        return 1;
+      }else if(a.firstWinamnt > b.firstWinamnt){
+        return -1;
+      }else{
+        return 0;
       }
-    })
-    return arr;
+    });
+    const obj:any = {};
+    firstWinamnt.forEach((item:Lotto, index: number) => {
+      obj[item.drwNo] = {
+        firstWinamnt: {
+          value: index+1
+        }
+      }
+    });
+    firstPrzwnerCo.forEach((item:Lotto, index: number) => {
+      obj[item.drwNo] = {...obj[item.drwNo],
+        firstPrzwnerCo: {
+          value: index+1
+        }
+      }
+    });
+    totSellamnt.forEach((item:Lotto, index: number) => {
+      obj[item.drwNo] = {...obj[item.drwNo],
+        totSellamnt: {
+          value: index+1
+        }
+      }
+    });
+    
+    console.log(obj);
+  }, []);
+  function getLatest(){
+    return data[`${Object.keys(data).length}`];
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        {JSON.stringify(getMaximum())}
-      </p>
-      <p>
-        {JSON.stringify(getMinimum())}
-      </p>
-      <p>
-        {numberToWon(totalSellAmount())}원
-      </p>
-      <p>
-        {JSON.stringify(getMaxFirstWinAmnt())}
-      </p>
-      <p>
-        {JSON.stringify(getMinFirstWinAmnt())}
-      </p>
-      <BarChart
-        width={1600}
-        height={300}
-        data={distributes()}
-        margin={{
-          top: 5, right: 30, left: 20, bottom: 5,
-        }}
-      >
-        <XAxis dataKey="key" />
-        <YAxis dataKey="value" />
-        <Tooltip />
-        <Bar dataKey="value" fill="#8884d8" />
-      </BarChart>
-      <WinNumBox numbers={numbers} />
+      <div className="content">
+        <LatestLottoBox data={getLatest()} />
+        <LatestLottoBox data={data[879]} />
+        <LatestLottoBox data={data[878]} />
+        <LatestLottoBox data={data[877]} />
+        <LatestLottoBox data={data[876]} />
+        <LatestLottoBox data={data[875]} />
+        <LatestLottoBox data={data[874]} />
+        <LatestLottoBox data={data[873]} />
+        <LatestLottoBox data={data[872]} />
+      </div>
+      <style jsx>{`
+        .content{
+          
+        }
+      `}</style>
     </Layout>
   )
 }
 IndexPage.getInitialProps = async () => {
   const response = await axios.get("https://r6cpoaneyb.execute-api.ap-northeast-2.amazonaws.com/dev/scanAll");
-  return { data: response.data }
+  const obj:any = {};
+  await response.data.Items.forEach((item:any)=>{
+    obj[`${item.drwNo}`] = item;
+  })
+  return { data: obj };
 }
 
 export default IndexPage
