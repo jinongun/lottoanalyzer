@@ -3,28 +3,29 @@ import { Lotto } from '../interfaces';
 import { FaPlus } from "react-icons/fa";
 import { numberToWon } from '../utils';
 
+import CountUp from 'react-countup';
 const BALL = ['drwtNo1', 'drwtNo2', 'drwtNo3', 'drwtNo4', 'drwtNo5', 'drwtNo6'];
 
-interface Props{
+interface Props {
   data: Lotto
 }
-const LatestLottoBox: React.FunctionComponent<Props> = ({data}:Props) => {
+const LatestLottoBox: React.FunctionComponent<Props> = ({ data }: Props) => {
   console.log(data);
   return (
     <div className="LatestLottoBox">
 
       <h3>{data.drwNo}회차 로또 당첨 번호</h3>
-      <p style={{fontSize: '11pt', color: 'gray', padding: '8px'}}>{data.drwNoDate} 추첨</p>
+      <p style={{ fontSize: '11pt', color: 'gray', padding: '8px' }}>{data.drwNoDate} 추첨</p>
       <div className="numberBox">
         {
-          BALL.map((i:string)=><LottoBall key={i} number={data[i]} />)
+          BALL.map((i: string) => <LottoBall key={i} number={data[i]} />)
         }
-        <span style={{display: 'inline-block',width: '48px', textAlign: 'center'}}><FaPlus /></span>
+        <span style={{ display: 'inline-block', width: '48px', textAlign: 'center' }}><FaPlus /></span>
         <LottoBall number={data['bnusNo']} />
       </div>
       {/* <h4 style={{padding: '16px 0'}}>총 판매금액 : {numberToWon(data.totSellamnt)}원</h4> */}
       <div className="calculator">
-      <div>
+        <div>
           <p className="decimalNum">{numberToWon(data.totSellamnt)}원</p>
           <p className="name">총 판매금액</p>
         </div>
@@ -37,18 +38,18 @@ const LatestLottoBox: React.FunctionComponent<Props> = ({data}:Props) => {
           <p className="name">1등 당첨 금액</p>
         </div>
       </div>
-      <div className="calculator" style={{display: 'flex'}}>
+      <div className="calculator" style={{ display: 'flex' }}>
         <div>
-          <p className="decimalNum">{(data.firstPrzwnerCo/data.total).toFixed(10)}%</p>
+          <p className="decimalNum">{(data.firstPrzwnerCo / data.total).toFixed(10)}%</p>
           <p className="name">실제 당첨자 비율</p>
         </div>
         <div>
-          <p className="decimalNum">{(1/8145060).toFixed(10)}%</p>
+          <p className="decimalNum">{(1 / 8145060).toFixed(10)}%</p>
           <p className="name">수학적 당첨 확률</p>
         </div>
         <div>
 
-          <p className={`decimalNum ${Math.sign((data.firstPrzwnerCo/data.total) - (1/8145060)) === 1 ? 'plus' : 'minus'}`}>{((data.firstPrzwnerCo/data.total) - (1/8145060)).toFixed(10)}%</p>
+          <p className={`decimalNum ${Math.sign((data.firstPrzwnerCo / data.total) - (1 / 8145060)) === 1 ? 'plus' : 'minus'}`}>{((data.firstPrzwnerCo / data.total) - (1 / 8145060)).toFixed(10)}%</p>
           <p className="name">오차</p>
         </div>
       </div>
@@ -94,10 +95,11 @@ const LatestLottoBox: React.FunctionComponent<Props> = ({data}:Props) => {
   )
 }
 
-const LottoBall: React.FunctionComponent<any> = (props:any) => {
+const LottoBall: React.FunctionComponent<any> = (props: any) => {
   return (
-    <div className={`LottoBall drw${(~~(props.number/10)) +1}`}>
-      <span className="number">{props.number}</span>
+    <div className={`LottoBall drw${(~~(props.number / 10)) + 1}`}>
+      <CountUp start={0} end={props.number} delay={0}>{({ countUpRef }) => (<span className="number" ref={countUpRef} />)}</CountUp>
+      {/* <span className="number">{props.number}</span> */}
       <style jsx>{`
         .LottoBall{
           display: inline-block;

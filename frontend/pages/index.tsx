@@ -10,9 +10,14 @@ import {
 import WinNumBox from "../components/WinNumBox";
 import LatestLottoBox from "../components/LatestLottoBox";
 
-const IndexPage: NextPage = ({ data }: any) => {
+interface Props {
+  data: {
+    [key: string]: Lotto
+  }
+}
+const IndexPage: NextPage<Props> = ({ data }: Props) => {
   //console.log(data);
-  const [totalRank, setTotalRank]:any = React.useState({});
+  const [totalRank, setTotalRank]: any = React.useState({});
   /*
     ranking: {
       1: {
@@ -31,77 +36,77 @@ const IndexPage: NextPage = ({ data }: any) => {
       } 
     }
   */
-  React.useEffect(()=> {
-    const arr1:Array<Lotto> = Object.values(data);
-    const arr2:Array<Lotto> = Object.values(data);
-    const arr3:Array<Lotto> = Object.values(data);
-    const totSellamnt:Array<Lotto> = arr1.sort((a:Lotto, b:Lotto) => {
-      if(a.totSellamnt < b.totSellamnt){
+  React.useEffect(() => {
+    const arr1: Array<Lotto> = Object.values(data);
+    const arr2: Array<Lotto> = Object.values(data);
+    const arr3: Array<Lotto> = Object.values(data);
+
+    arr1.forEach((item: Lotto, index: number) => {
+
+    })
+
+    const totSellamnt: Array<Lotto> = arr1.sort((a: Lotto, b: Lotto) => {
+      if (a.totSellamnt < b.totSellamnt) {
         return 1;
-      }else if(a.totSellamnt > b.totSellamnt){
+      } else if (a.totSellamnt > b.totSellamnt) {
         return -1;
-      }else{
+      } else {
         return 0;
       }
     });
-    const firstPrzwnerCo:Array<Lotto> = arr2.sort((a:Lotto, b:Lotto) => {
-      if(a.firstPrzwnerCo < b.firstPrzwnerCo){
+    const firstPrzwnerCo: Array<Lotto> = arr2.sort((a: Lotto, b: Lotto) => {
+      if (a.firstPrzwnerCo < b.firstPrzwnerCo) {
         return 1;
-      }else if(a.firstPrzwnerCo > b.firstPrzwnerCo){
+      } else if (a.firstPrzwnerCo > b.firstPrzwnerCo) {
         return -1;
-      }else{
+      } else {
         return 0;
       }
     });
-    const firstWinamnt:Array<Lotto> = arr3.sort((a:Lotto, b:Lotto) => {
-      if(a.firstWinamnt < b.firstWinamnt){
+    const firstWinamnt: Array<Lotto> = arr3.sort((a: Lotto, b: Lotto) => {
+      if (a.firstWinamnt < b.firstWinamnt) {
         return 1;
-      }else if(a.firstWinamnt > b.firstWinamnt){
+      } else if (a.firstWinamnt > b.firstWinamnt) {
         return -1;
-      }else{
+      } else {
         return 0;
       }
     });
-    const obj:any = {};
-    firstWinamnt.forEach((item:Lotto, index: number) => {
+    const obj: any = {};
+    firstWinamnt.forEach((item: Lotto, index: number) => {
       obj[item.drwNo] = {
         firstWinamnt: {
-          value: index+1
+          value: index + 1
         }
       }
     });
-    firstPrzwnerCo.forEach((item:Lotto, index: number) => {
-      obj[item.drwNo] = {...obj[item.drwNo],
+    firstPrzwnerCo.forEach((item: Lotto, index: number) => {
+      obj[item.drwNo] = {
+        ...obj[item.drwNo],
         firstPrzwnerCo: {
-          value: index+1
+          value: index + 1
         }
       }
     });
-    totSellamnt.forEach((item:Lotto, index: number) => {
-      obj[item.drwNo] = {...obj[item.drwNo],
+    totSellamnt.forEach((item: Lotto, index: number) => {
+      obj[item.drwNo] = {
+        ...obj[item.drwNo],
         totSellamnt: {
-          value: index+1
+          value: index + 1
         }
       }
     });
-    
+
     console.log(obj);
   }, []);
-  function getLatest(){
+  function getLatest() {
     return data[`${Object.keys(data).length}`];
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <div className="content">
         <LatestLottoBox data={getLatest()} />
-        <LatestLottoBox data={data[879]} />
-        <LatestLottoBox data={data[878]} />
-        <LatestLottoBox data={data[877]} />
-        <LatestLottoBox data={data[876]} />
-        <LatestLottoBox data={data[875]} />
-        <LatestLottoBox data={data[874]} />
-        <LatestLottoBox data={data[873]} />
-        <LatestLottoBox data={data[872]} />
+
       </div>
       <style jsx>{`
         .content{
@@ -113,8 +118,8 @@ const IndexPage: NextPage = ({ data }: any) => {
 }
 IndexPage.getInitialProps = async () => {
   const response = await axios.get("https://r6cpoaneyb.execute-api.ap-northeast-2.amazonaws.com/dev/scanAll");
-  const obj:any = {};
-  await response.data.Items.forEach((item:any)=>{
+  const obj: any = {};
+  await response.data.Items.forEach((item: any) => {
     obj[`${item.drwNo}`] = item;
   })
   return { data: obj };

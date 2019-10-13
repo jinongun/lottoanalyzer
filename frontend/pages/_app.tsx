@@ -10,11 +10,11 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <>
-        <Component {...pageProps}/>
+        <Component {...pageProps} />
         <style jsx global>{`
           body{
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #fff;
             font-family: 'Nanum Gothic', sans-serif;
 
           }
