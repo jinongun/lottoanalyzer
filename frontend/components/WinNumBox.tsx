@@ -38,16 +38,16 @@ const WinNumBox: React.FunctionComponent<Props> = ({ numbers }) => {
       <style jsx>{`
         .WinNumBox{
           display: block;
-          font-size: 20pt;
+          font-size: 7pt;
         }
         .WinNumBox > .box{
           display: inline-block;
-          width: 24px;
-          height: 24px;
-          background-color: gray;
+          width: 12px;
+          height: 12px;
+          background-color: #d1d5d9;
         }
         .WinNumBox > .box.win1{
-          background: red;
+          background: u
         }
         .WinNumBox > .box.win2{
           background: orange;
@@ -65,7 +65,11 @@ const WinNumBox: React.FunctionComponent<Props> = ({ numbers }) => {
           background: purple;
         }
         .WinNumBox > .box + .box{
-          margin-left: 8px;
+          margin-left: 2px;
+        }
+        .WinNumBox > .box:nth-child(10n){
+          margin-left: 6px;
+          margin-right: 4px;
         }
       `}
       </style>

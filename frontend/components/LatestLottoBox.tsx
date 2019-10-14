@@ -11,6 +11,14 @@ interface Props {
 }
 const LatestLottoBox: React.FunctionComponent<Props> = ({ data }: Props) => {
   console.log(data);
+
+
+  function probability(str:string){
+    const [zeros, digits] = str.split(/([1-9].*)/);
+    return (
+      <CountUp start={0} end={Number(digits)} prefix={zeros} suffix="%" delay={0}>{({ countUpRef }) => (<span ref={countUpRef} />)}</CountUp>
+    )
+  }
   return (
     <div className="LatestLottoBox">
 
@@ -40,20 +48,28 @@ const LatestLottoBox: React.FunctionComponent<Props> = ({ data }: Props) => {
       </div>
       <div className="calculator" style={{ display: 'flex' }}>
         <div>
-          <p className="decimalNum">{(data.firstPrzwnerCo / data.total).toFixed(10)}%</p>
+          <p className="decimalNum">
+          {probability((data.firstPrzwnerCo / data.total).toFixed(10))}
+          </p>
+          {/* <p className="decimalNum">{(data.firstPrzwnerCo / data.total).toFixed(10)}%</p> */}
           <p className="name">실제 당첨자 비율</p>
         </div>
         <div>
-          <p className="decimalNum">{(1 / 8145060).toFixed(10)}%</p>
+          <p className="decimalNum">
+            {probability((1 / 8145060).toFixed(10))}
+          </p>
+          {/* <p className="decimalNum">{(1 / 8145060).toFixed(10)}%</p> */}
           <p className="name">수학적 당첨 확률</p>
         </div>
         <div>
-
-          <p className={`decimalNum ${Math.sign((data.firstPrzwnerCo / data.total) - (1 / 8145060)) === 1 ? 'plus' : 'minus'}`}>{((data.firstPrzwnerCo / data.total) - (1 / 8145060)).toFixed(10)}%</p>
+          <p className={`decimalNum ${Math.sign((data.firstPrzwnerCo / data.total) - (1 / 8145060)) === 1 ? 'plus' : 'minus'}`}>
+            {probability(((data.firstPrzwnerCo / data.total) - (1 / 8145060)).toFixed(10))}
+          </p>
+          {/* <p className={`decimalNum ${Math.sign((data.firstPrzwnerCo / data.total) - (1 / 8145060)) === 1 ? 'plus' : 'minus'}`}>{((data.firstPrzwnerCo / data.total) - (1 / 8145060)).toFixed(10)}%</p> */}
           <p className="name">오차</p>
         </div>
       </div>
-      <style jsx>{`
+      <style jsx >{`
         .LatestLottoBox{
           padding: 40px 0;
 
