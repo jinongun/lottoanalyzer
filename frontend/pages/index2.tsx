@@ -63,7 +63,7 @@ const IndexPage2: NextPage = ({ data }: any) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
+      {/* <h1>Hello Next.js 👋</h1>
       <p>
         {JSON.stringify(getMaximum())}
       </p>
@@ -91,7 +91,7 @@ const IndexPage2: NextPage = ({ data }: any) => {
         <YAxis dataKey="value" />
         <Tooltip />
         <Bar dataKey="value" fill="#8884d8" />
-      </BarChart>
+      </BarChart> */}
       <WinNumBox numbers={numbers} />
     </Layout>
   )
