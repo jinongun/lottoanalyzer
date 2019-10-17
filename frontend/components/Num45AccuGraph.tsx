@@ -1,52 +1,114 @@
 import * as React from "react";
 import { Lotto } from "../interfaces";
 
-interface Props{
-  //numbers: Array<Lotto>
+/*
+  props = {
+    data: {
+      drwtNo1: {
+        '2019-07': {}
+      }
+    }
+  }
+*/
+
+interface Props {
   data: {
-    [key: string]: Lotto
+    [key: string]: {
+      len: number
+      [key: string]: Array<number>;
+    }
   }
 }
-const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }:Props) => {
+
+const NAME = ['drwtNo1', 'drwtNo2', 'drwtNo3', 'drwtNo4', 'drwtNo5', 'drwtNo6'];
+
+const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
   const [checkset, setCheckset] = React.useState([true, true, true, true, true, true]);
 
-  function toggleCheckset(index:number){
-    setCheckset(Object.assign([], checkset, {[index]: !checkset[index]}));
-  }
-  function coloring(item:Lotto, index:number){
-    if(checkset[0] && item[`drwtNo1`] === (index + 1)) {
-      return 'no1';
-    }
-    if(checkset[1] && item[`drwtNo2`] === (index + 1)) {
-      return 'no2';
-    }
-    if(checkset[2] && item[`drwtNo3`] === (index + 1)) {
-      return 'no3';
-    }
-    if(checkset[3] && item[`drwtNo4`] === (index + 1)) {
-      return 'no4';
-    }
-    if(checkset[4] && item[`drwtNo5`] === (index + 1)) {
-      return 'no5';
-    }
-    if(checkset[5] && item[`drwtNo6`] === (index + 1)) {
-      return 'no6';
-    }
+  function toggleCheckset(index: number) {
+    setCheckset(Object.assign([], checkset, { [index]: !checkset[index] }));
   }
   console.log(data);
+  console.log(console.log(Object.values(data)));
   return (
     <div className="Num45AccuGraph">
       <div className="row">
         {
-          checkset.map((value:boolean, index:number) => {
+          checkset.map((value: boolean, index: number) => {
             return (<Checkbox key={index} value={value} id={index} onChange={toggleCheckset} />);
           })
         }
       </div>
       {
-        // Object.values(data).map((drwtNo:string, index:number) => {
-        //   return null;
-        // })
+        Object.keys(data).map((key: string, index: number) => {
+          return (
+            <div className="row" key={key}>
+              {
+                NAME.map((name) => {
+                  return (
+                    <div className="abs">
+                      {
+                        data[key][`${name}`].map((num: number, jndex: number) => {
+                          return <span key={jndex} className={`square ${num}`} style={{ background: 'red', opacity: num / data[key].length }} />
+                        })
+                      }
+                    </div>
+                  )
+                })
+              }
+              <div className="abs">
+                {
+                  new Array(45).fill(0).map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square`} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo1.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'red', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo2.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'blue', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo3.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'green', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo4.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'purple', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo5.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'orange', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+              <div className="abs">
+                {
+                  data[key].drwtNo6.map((num: number, jndex: number) => {
+                    return <span key={jndex} className={`square ${num}`} style={{ background: 'orange', opacity: num / data[key].length }} />
+                  })
+                }
+              </div>
+
+            </div>
+          )
+        })
       }
       {/* {
         Object.values(data).map((item:Lotto, index: number) => {
@@ -74,10 +136,16 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }:Props) => {
           width: 100%;
         }
         .row{
+          position: relative;
           display: flex;
+          height: 8px;
         }
         .row + .row{
           margin-top: 2px;
+        }
+        .row > .abs{
+          position: absolute;
+          height: 8px;
         }
         .square{
           display: inline-block;
@@ -105,11 +173,11 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }:Props) => {
 export default Num45AccuGraph;
 
 
-const Checkbox: React.FunctionComponent<any> = ({id, value, onChange}) => {
-  const name = [`1st`,`2nd`,`3rd`,`4th`,`5th`,`6th`];
+const Checkbox: React.FunctionComponent<any> = ({ id, value, onChange }) => {
+  const name = [`1st`, `2nd`, `3rd`, `4th`, `5th`, `6th`];
   return (
     <label htmlFor={name[id]}>
-      <input type="checkbox" id={name[id]} checked={value} onChange={()=>onChange(id)} />
+      <input type="checkbox" id={name[id]} checked={value} onChange={() => onChange(id)} />
       <span className="name">{name[id]} 번호</span>
       <style jsx>{`
         label{

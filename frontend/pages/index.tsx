@@ -37,73 +37,77 @@ const IndexPage: NextPage<Props> = ({ data }: Props) => {
       } 
     }
   */
- const [monthlyAcc, setMonthlyAcc] = React.useState({});
- const [yearlyAcc, setYearlyAcc] = React.useState({});
- /*
-   {
-     2002-07: {
-       1: 4
-       2: 0
-       3: 0
-       ...
-       45:1
-     },
-     2002-08: {
-       ...
-     }
-   }
- */
- React.useEffect(()=>{
+  const [monthlyAcc, setMonthlyAcc] = React.useState({});
+  const [yearlyAcc, setYearlyAcc] = React.useState({});
+  /*
+    {
+      2002-07: {
+        1: 4
+        2: 0
+        3: 0
+        ...
+        45:1
+      },
+      2002-08: {
+        ...
+      }
+    }
+  */
+  React.useEffect(() => {
 
-   let prevMonth = '';
-   let prevYear = '';
-   let obj1:any = {
+    let prevMonth = '';
+    let prevYear = '';
+    let obj1: any = {
 
-   };
-   let obj2:any = {
+    };
+    let obj2: any = {
 
-   };
-   Object.values(data).forEach((item:Lotto, index:number)=> { 
-     if(prevMonth !== `${item.year}-${item.month}`){
-       prevMonth = `${item.year}-${item.month}`;
-      obj1[`${item.year}-${item.month}`] = { 
-        drwtNo1: new Array(45).fill(0),
-        drwtNo2: new Array(45).fill(0),
-        drwtNo3: new Array(45).fill(0),
-        drwtNo4: new Array(45).fill(0),
-        drwtNo5: new Array(45).fill(0),
-        drwtNo6: new Array(45).fill(0)
-      };
-     }
-     if(prevYear !== `${item.year}`){
-       prevYear = `${item.year}`;
-       obj2[`${item.year}`] = { 
-         drwtNo1: new Array(45).fill(0),
-         drwtNo2: new Array(45).fill(0),
-         drwtNo3: new Array(45).fill(0),
-         drwtNo4: new Array(45).fill(0),
-         drwtNo5: new Array(45).fill(0),
-         drwtNo6: new Array(45).fill(0)
-       }
+    };
+    Object.values(data).forEach((item: Lotto, index: number) => {
+      if (prevMonth !== `${item.year}-${item.month}`) {
+        prevMonth = `${item.year}-${item.month}`;
+        obj1[`${item.year}-${item.month}`] = {
+          drwtNo1: new Array(45).fill(0),
+          drwtNo2: new Array(45).fill(0),
+          drwtNo3: new Array(45).fill(0),
+          drwtNo4: new Array(45).fill(0),
+          drwtNo5: new Array(45).fill(0),
+          drwtNo6: new Array(45).fill(0),
+          length: 0
+        };
+      }
+      if (prevYear !== `${item.year}`) {
+        prevYear = `${item.year}`;
+        obj2[`${item.year}`] = {
+          drwtNo1: new Array(45).fill(0),
+          drwtNo2: new Array(45).fill(0),
+          drwtNo3: new Array(45).fill(0),
+          drwtNo4: new Array(45).fill(0),
+          drwtNo5: new Array(45).fill(0),
+          drwtNo6: new Array(45).fill(0),
+          length: 0
+        }
 
-     }
-     obj1[`${item.year}-${item.month}`].drwtNo1[item.drwtNo1]++;
-     obj1[`${item.year}-${item.month}`].drwtNo2[item.drwtNo2]++;
-     obj1[`${item.year}-${item.month}`].drwtNo3[item.drwtNo3]++;
-     obj1[`${item.year}-${item.month}`].drwtNo4[item.drwtNo4]++;
-     obj1[`${item.year}-${item.month}`].drwtNo5[item.drwtNo5]++;
-     obj1[`${item.year}-${item.month}`].drwtNo6[item.drwtNo6]++;
+      }
+      obj1[`${item.year}-${item.month}`].drwtNo1[item.drwtNo1 - 1]++;
+      obj1[`${item.year}-${item.month}`].drwtNo2[item.drwtNo2 - 1]++;
+      obj1[`${item.year}-${item.month}`].drwtNo3[item.drwtNo3 - 1]++;
+      obj1[`${item.year}-${item.month}`].drwtNo4[item.drwtNo4 - 1]++;
+      obj1[`${item.year}-${item.month}`].drwtNo5[item.drwtNo5 - 1]++;
+      obj1[`${item.year}-${item.month}`].drwtNo6[item.drwtNo6 - 1]++;
+      obj1[`${item.year}-${item.month}`].length++;
 
-     obj2[`${item.year}`].drwtNo1[item.drwtNo1]++;
-     obj2[`${item.year}`].drwtNo2[item.drwtNo2]++;
-     obj2[`${item.year}`].drwtNo3[item.drwtNo3]++;
-     obj2[`${item.year}`].drwtNo4[item.drwtNo4]++;
-     obj2[`${item.year}`].drwtNo5[item.drwtNo5]++;
-     obj2[`${item.year}`].drwtNo6[item.drwtNo6]++;
-   });
-   setMonthlyAcc(obj1);
-   setYearlyAcc(obj2);
- },[])
+      obj2[`${item.year}`].drwtNo1[item.drwtNo1 - 1]++;
+      obj2[`${item.year}`].drwtNo2[item.drwtNo2 - 1]++;
+      obj2[`${item.year}`].drwtNo3[item.drwtNo3 - 1]++;
+      obj2[`${item.year}`].drwtNo4[item.drwtNo4 - 1]++;
+      obj2[`${item.year}`].drwtNo5[item.drwtNo5 - 1]++;
+      obj2[`${item.year}`].drwtNo6[item.drwtNo6 - 1]++;
+      obj2[`${item.year}`].length++;
+    });
+    setMonthlyAcc(obj1);
+    setYearlyAcc(obj2);
+  }, [])
   React.useEffect(() => {
     const arr1: Array<Lotto> = Object.values(data);
     const arr2: Array<Lotto> = Object.values(data);
@@ -176,8 +180,8 @@ const IndexPage: NextPage<Props> = ({ data }: Props) => {
         <LatestLottoBox data={getLatest()} />
       </div> */}
       <Num45AccuGraph data={yearlyAcc} />
-      <Num45AccuGraph data={monthlyAcc} />
-      <Num45AccuGraph data={data} />
+      {/* <Num45AccuGraph data={monthlyAcc} />
+      <Num45AccuGraph data={data} /> */}
       <style jsx>{`
         .content{
           
