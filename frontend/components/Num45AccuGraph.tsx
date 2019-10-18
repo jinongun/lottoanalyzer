@@ -14,7 +14,7 @@ import { Lotto } from "../interfaces";
 interface Props {
   data: {
     [key: string]: {
-      len: number
+      length: any
       [key: string]: Array<number>;
     }
   }
@@ -40,72 +40,22 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
         }
       </div>
       {
-        Object.keys(data).map((key: string, index: number) => {
+        Object.keys(data).map((key: string) => {
           return (
             <div className="row" key={key}>
               {
-                NAME.map((name) => {
-                  return (
+                NAME.map((name:string, index:number) => {
+                  return checkset[index] && (
                     <div className="abs">
                       {
                         data[key][`${name}`].map((num: number, jndex: number) => {
-                          return <span key={jndex} className={`square ${num}`} style={{ background: 'red', opacity: num / data[key].length }} />
+                          return <span key={jndex} className={`square ${name}`} style={{  opacity: num / data[key].length }} />
                         })
                       }
                     </div>
                   )
                 })
               }
-              <div className="abs">
-                {
-                  new Array(45).fill(0).map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square`} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo1.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'red', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo2.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'blue', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo3.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'green', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo4.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'purple', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo5.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'orange', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-              <div className="abs">
-                {
-                  data[key].drwtNo6.map((num: number, jndex: number) => {
-                    return <span key={jndex} className={`square ${num}`} style={{ background: 'orange', opacity: num / data[key].length }} />
-                  })
-                }
-              </div>
-
             </div>
           )
         })
@@ -132,13 +82,13 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
       </div> */}
       <style jsx>{`
         .Num45AccuGraph{
-          height: 100px;
+ 
           width: 100%;
         }
         .row{
           position: relative;
-          display: flex;
-          height: 8px;
+          display: block;
+          min-height: 8px;
         }
         .row + .row{
           margin-top: 2px;
@@ -146,6 +96,8 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
         .row > .abs{
           position: absolute;
           height: 8px;
+          top: 0;
+          left: 0;
         }
         .square{
           display: inline-block;
@@ -160,12 +112,12 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
         .square + .square:nth-child(10n+1){
           margin-left: 4px;
         }
-        .square.no1 { background: red; }
-        .square.no2 { background: blue; }
-        .square.no3 { background: yellow; }
-        .square.no4 { background: green; }
-        .square.no5 { background: purple; }
-        .square.no6 { background: orange; }
+        .square.drwtNo1 { background: red; }
+        .square.drwtNo2 { background: blue; }
+        .square.drwtNo3 { background: yellow; }
+        .square.drwtNo4 { background: green; }
+        .square.drwtNo5 { background: purple; }
+        .square.drwtNo6 { background: orange; }
       `}</style>
     </div>
   )

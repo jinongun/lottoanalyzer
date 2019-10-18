@@ -10,6 +10,7 @@ import {
 import WinNumBox from "../components/WinNumBox";
 import LatestLottoBox from "../components/LatestLottoBox";
 import Num45AccuGraph from '../components/Num45AccuGraph'
+import WinNumFilter from '../components/WinNumFilter'
 
 interface Props {
   data: {
@@ -176,12 +177,13 @@ const IndexPage: NextPage<Props> = ({ data }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      {/* <div className="content">
+      <WinNumFilter data={data}/>
+      <div className="content">
         <LatestLottoBox data={getLatest()} />
-      </div> */}
+      </div>
       <Num45AccuGraph data={yearlyAcc} />
-      {/* <Num45AccuGraph data={monthlyAcc} />
-      <Num45AccuGraph data={data} /> */}
+      {/* <Num45AccuGraph data={monthlyAcc} /> */}
+
       <style jsx>{`
         .content{
           
