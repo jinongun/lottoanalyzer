@@ -44,12 +44,12 @@ const Num45AccuGraph: React.FunctionComponent<Props> = ({ data }: Props) => {
           return (
             <div className="row" key={key}>
               {
-                NAME.map((name:string, index:number) => {
+                NAME.map((name: string, index: number) => {
                   return checkset[index] && (
                     <div className="abs">
                       {
                         data[key][`${name}`].map((num: number, jndex: number) => {
-                          return <span key={jndex} className={`square ${name}`} style={{  opacity: num / data[key].length }} />
+                          return <span key={jndex} className={`square ${name}`} style={{ opacity: num / data[key].length }} />
                         })
                       }
                     </div>
