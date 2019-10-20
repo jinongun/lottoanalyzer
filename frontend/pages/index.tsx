@@ -12,6 +12,22 @@ import LatestLottoBox from "../components/LatestLottoBox";
 import Num45AccuGraph from '../components/Num45AccuGraph'
 import WinNumFilter from '../components/WinNumFilter'
 
+/*
+  {
+    data: {
+      '1': {
+
+      },
+      '2': {
+
+      },
+      ...
+      '880': {
+
+      }
+    }
+  }
+*/
 interface Props {
   data: {
     [key: string]: Lotto

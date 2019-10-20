@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-
+import CountUp from "react-countup";
 
 /*
   data: {
@@ -18,7 +18,7 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
   return (
     <div className="BallBox">
       {
-        NUM2.map((num:number,index:number) => {
+        NUM1.map((num:number,index:number) => {
           if(index===6){
             return (
               <>
@@ -28,7 +28,10 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
             )
           }
           return (
-            <span className={`ball drw${~~(num/10)+1}`}>{num}</span>
+            <span key={`drw${num}`} className={`ball drw${~~(num/10)+1}`}>
+              {num}
+              
+            </span>
           )
         })
       }

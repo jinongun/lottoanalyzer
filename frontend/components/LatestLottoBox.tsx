@@ -4,6 +4,7 @@ import { FaPlus } from "react-icons/fa";
 import { numberToWon } from '../utils';
 
 import CountUp from 'react-countup';
+import BallBox from "./BallBox";
 const BALL = ['drwtNo1', 'drwtNo2', 'drwtNo3', 'drwtNo4', 'drwtNo5', 'drwtNo6'];
 
 interface Props {
@@ -23,8 +24,7 @@ const LatestLottoBox: React.FunctionComponent<Props> = ({ data }: Props) => {
     <div className="LatestLottoBox">
 
       <h3>{data.drwNo}회차 로또 당첨 번호</h3>
-      <p style={{ fontSize: '11pt', color: 'gray', padding: '8px' }}>{data.drwNoDate} 추첨</p>
-      <div className="numberBox">
+      <p style={{ fontSize: '11pt', color: 'gray', padding: '8px' }}>{data.drwNoDate} 추첨</p>      <div className="numberBox">
         {
           BALL.map((i: string) => <LottoBall key={i} number={data[i]} />)
         }
