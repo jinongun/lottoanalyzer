@@ -47,7 +47,7 @@ const WinNumBox: React.FunctionComponent<Props> = ({ numbers }) => {
           background-color: #d1d5d9;
         }
         .WinNumBox > .box.win1{
-          background: u
+          background: red;
         }
         .WinNumBox > .box.win2{
           background: orange;

@@ -8,17 +8,14 @@ import CountUp from "react-countup";
   }
 */
 interface Props{
-  data?: {
-    numbers: Array<number> 
-  }
+  data: Array<number> 
+  
 }
 const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
-  const NUM1 = [1,2,3,4,5,6];
-  const NUM2 = [1,5,11,19,23,36,12];
   return (
     <div className="BallBox">
       {
-        NUM1.map((num:number,index:number) => {
+        data.map((num:number,index:number) => {
           if(index===6){
             return (
               <>
@@ -30,7 +27,6 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
           return (
             <span key={`drw${num}`} className={`ball drw${~~(num/10)+1}`}>
               {num}
-              
             </span>
           )
         })
