@@ -42,7 +42,7 @@ const LatestLottoBox: React.FunctionComponent<Props> = ({ data }: Props) => {
           <p className="name">1등 당첨자 수</p>
         </div>
         <div>
-          <p className="decimalNum">{numberToWon(data.firstAccumamnt)} 원</p>
+          <p className="decimalNum">{numberToWon(data.firstWinamnt)} 원</p>
           <p className="name">1등 당첨 금액</p>
         </div>
       </div>

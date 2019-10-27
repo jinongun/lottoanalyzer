@@ -3,15 +3,13 @@ import { FaPlus } from "react-icons/fa";
 import CountUp from "react-countup";
 
 /*
-  data: {
-    numbers: [1,4,9,11,16,29] | [1,4,9,11,16,29,2] // 배열의 length가 7이면 마지막 번호는 보너스 번호이다.
-  }
+  data: [1,4,9,11,16,29] | [1,4,9,11,16,29,2] // 배열의 length가 7이면 마지막 번호는 보너스 번호이다.
 */
 interface Props{
   data: Array<number> 
-  
+  showEmpty?: boolean
 }
-const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
+const BallBox:React.FunctionComponent<Props> = ({data, showEmpty=false}:Props) => {
   return (
     <div className="BallBox">
       {
@@ -19,7 +17,7 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
           if(index===6){
             return (
               <>
-                <span style={{ display: 'inline-flex', justifyContent:'center', alignItems:'center', width: '40px', textAlign: 'center' }}><FaPlus /></span>
+                <span style={{ display: 'inline-flex', justifyContent:'center', alignItems:'center', width: '36px', textAlign: 'center' }}><FaPlus fill="#fff" /></span>
                 <span className={`ball drw${~~(num/10)+1}`}>{num}</span>
               </>
             )
@@ -31,14 +29,25 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
           )
         })
       }
+      {
+        showEmpty && data.length === 0 && new Array(6).fill(0).map((num:number, index: number)=> {
+          return (
+            <span key={`drw${index}`} className={`ball empty`}>
+              
+            </span>
+          )
+        })
+      }
       <style jsx>{`
         .BallBox{
           padding: 8px 0;
           text-align: center;
+          display: flex;
+          justify-content: center;
         }
         .ball{
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -48,7 +57,7 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
           font-weight: bold;
         }
         .ball+.ball{
-          margin-left: 8px;
+          margin-left: 4px;
         }
 
         .ball:nth-child(7){
@@ -68,6 +77,9 @@ const BallBox:React.FunctionComponent<Props> = ({data}:Props) => {
         }
         .ball.drw5{
           background-color: #598234;
+        }
+        .ball.empty{
+          background-color: #e1e5e9;
         }
       `}</style>
     </div>

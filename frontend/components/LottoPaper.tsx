@@ -2,49 +2,48 @@ import * as React from "react";
 
 
 interface Props{
-  numbers: {
+  numbers?: {
     [key: string]: boolean
   }
-  setNumbers: Function
+  setNumbers?: Function
+  hasAuto?: boolean
+  hasClear?: boolean
 }
 function delObj(num:any, numbers:any){
   const {[num]: bye, ...rest} = numbers;
   return rest;
 }
-const LottoPaper: React.FunctionComponent<Props> = ({numbers, setNumbers}) => {
+const LottoPaper: React.FunctionComponent<Props> = ({ hasAuto = true, hasClear= true,numbers = {}, setNumbers = () => {} }) => {
   const [checked, setChecked]:any = React.useState({ });
   const NUM = new Array(45).fill(0).map((i:number,index:number)=>index+1);
   
-  function toggle(num:number){
+  const toggle = React.useCallback((e)=>{
+    let num = e.target.innerText;
     if(numbers[num] === true){
       setNumbers(delObj(num, numbers));
     }else if(Object.keys(numbers).length < 6){
       setNumbers({...numbers, [num]: true });
     }
-    
-  }
-
-  function auto(){
-    const item = new Set();
+  },[numbers]);
+  const auto = React.useCallback(()=>{
+    const item:Set<number> = new Set();
     while (item.size < 6) { // O(1)
       let num = Math.floor(Math.random() * 45) + 1;
       item.add(num);
     }
-    console.log(item);
     const obj:any = {};
     item.forEach((i:any)=> {
       obj[i]=true;
-    })
-    console.log(obj);
+    });
     setNumbers(obj);
-    //setNumbers(item);
-  }
+  },[]); 
+
 
   function generate(){
     let rows:any = [];
     let res:any = [];
     NUM.forEach((num: number)=> {
-      rows.push(<span key={num} className={`box ${numbers[num] ? 'checked': ''}`}onClick={()=>toggle(num)}>{num}</span>);
+      rows.push(<span key={num} className={`box ${numbers[num] ? 'checked': ''}`}onClick={toggle}>{num}</span>);
       if(num%7===0){
         res.push(<div key={`row${num}`} className="row">{rows}</div>);
         rows = [];
@@ -53,9 +52,9 @@ const LottoPaper: React.FunctionComponent<Props> = ({numbers, setNumbers}) => {
         res.push(
         <div key={`row${num}`} className="row">
           {rows}
-          <span className={`box`} style={{marginLeft: '32px'}} onClick={()=>auto()}>Auto</span>
-          <span className={`box`} style={{}} onClick={()=>setNumbers({})}>Clear</span>
-          
+          {hasAuto && <span className={`box`} style={{marginLeft: '32px'}} onClick={auto}>Auto</span>}
+          {hasClear && <span className={`box`} style={{}} onClick={()=>setNumbers({})}>Clear</span>}
+
         </div>);
       }
     })
@@ -71,9 +70,10 @@ const LottoPaper: React.FunctionComponent<Props> = ({numbers, setNumbers}) => {
           //background-color: gray;
           display: inline-block;
           text-align: left;
+          user-select:none;
         }
         .LottoPaper > .row{
-          padding: 4px 8px; 
+          padding: 4px 4px; 
         }
         .LottoPaper > .row >.box{
           user-select: none;

@@ -92,7 +92,7 @@ const IndexPage2: NextPage = ({ data }: any) => {
         <Tooltip />
         <Bar dataKey="value" fill="#8884d8" />
       </BarChart> */}
-      <WinNumBox numbers={numbers} />
+      {/* <WinNumBox numbers={numbers} /> */}
     </Layout>
   )
 }

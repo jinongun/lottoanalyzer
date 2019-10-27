@@ -15,10 +15,10 @@ const WinNumFilter: React.FunctionComponent<Props> = ({ data }: Props) => {
   const NAME = ['drwtNo1', 'drwtNo2', 'drwtNo3', 'drwtNo4', 'drwtNo5', 'drwtNo6'];
   return (
     <div className="WinNumFilter">
-      <BallBox data={Object.keys(num).map(Number) || []}  />
+      {/* <BallBox showEmpty={true} data={Object.keys(num).map(Number) || []}  /> */}
       <LottoPaper numbers={num} setNumbers={setNum} />
 
-      {
+      {/* {
         Object.values(data).map((item: Lotto, index: number) => {
           let cnt = 0;
           let arr: any = [];
@@ -31,7 +31,7 @@ const WinNumFilter: React.FunctionComponent<Props> = ({ data }: Props) => {
           if (cnt === 5) {
             return Object.keys(num).map(Number).includes(item.bnusNo) ? <p>{item.drwNo}회 일치횟수 2등</p> : <p>{item.drwNo}회 일치횟수 3등</p>
           }
-          if (cnt >= 4) {
+          if (cnt >= 3) {
             return (<p>
               {item.drwNo}회 일치횟수
               {cnt >= 4 ? <b style={{ fontSize: "16pt" }}>{cnt}</b> : cnt}
@@ -40,10 +40,12 @@ const WinNumFilter: React.FunctionComponent<Props> = ({ data }: Props) => {
           return null
 
         })
-      }
+      } */}
       <style jsx>{`
         .WinNumFilter{
+          background-color: white;
           text-align: center;
+          margin-bottom: 100px;
         }
       
       `}</style>

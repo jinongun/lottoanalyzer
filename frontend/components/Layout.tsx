@@ -19,7 +19,7 @@ const Layout: React.FunctionComponent<Props> = ({
     <style jsx>{`
 
       .body{
-        background-color: #f9f9f9;
+        background-color: #292729;
         width: 100%;
         height: 100vh;
         max-width: 768px;

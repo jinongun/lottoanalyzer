@@ -11,6 +11,9 @@ import WinNumBox from "../components/WinNumBox";
 import LatestLottoBox from "../components/LatestLottoBox";
 import Num45AccuGraph from '../components/Num45AccuGraph'
 import WinNumFilter from '../components/WinNumFilter'
+import LottoPaper from '../components/LottoPaper'
+import BallBox from '../components/BallBox'
+import LottoOverview from '../components/LottoOverview'
 
 /*
   {
@@ -193,16 +196,35 @@ const IndexPage: NextPage<Props> = ({ data }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <WinNumFilter data={data}/>
+      <LottoOverview />
+      {/* <h3>882회차 로또 통계</h3>
+      <p className="date">2019-10-26</p>
+      <BallBox data={[1,10,20,30,40,45 ,2]}/> */}
+      {/* <LatestLottoBox data={getLatest()} /> */}
+
+      {/* <LottoPaper />
+      <LottoPaper /> */}
+      {/* <WinNumFilter data={data}/>
       <div className="content">
         <LatestLottoBox data={getLatest()} />
-      </div>
-      <Num45AccuGraph data={yearlyAcc} />
+      </div> */}
+      {/* <Num45AccuGraph data={yearlyAcc} /> */}
       {/* <Num45AccuGraph data={monthlyAcc} /> */}
 
       <style jsx>{`
         .content{
           
+        }
+        h1,h2,h3,h4{
+          font-family: 'Nanum Gothic', sans-serif;
+          padding: 16px 0;
+          color: white;
+          text-align: center;
+        }
+        .date{
+          text-align: center;
+          color: #f0f0f0;
+          padding: 8px 0;
         }
       `}</style>
     </Layout>

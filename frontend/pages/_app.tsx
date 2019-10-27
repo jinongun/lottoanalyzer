@@ -14,7 +14,7 @@ export default class MyApp extends App {
         <style jsx global>{`
           body{
             margin: 0;
-            background-color: #fff;
+            background-color: #f1f5f9;
             font-family: 'Nanum Gothic', sans-serif;
 
           }
