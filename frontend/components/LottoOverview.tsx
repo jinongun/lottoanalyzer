@@ -1,39 +1,56 @@
 import * as React from "react";
 import BallBox from "./BallBox";
 import LottoPaper from "./LottoPaper";
+import { Lotto } from '../interfaces';
+import { numberToWon } from '../utils';
+import CountUp from 'react-countup';
 
-interface Props{
-
+interface Props {
+  data: Lotto
 }
-const LottoOverview: React.FunctionComponent<Props> = ({}) => {
+const LottoOverview: React.FunctionComponent<Props> = ({data}) => {
+  const [numbers, setNumbers]:any = React.useState([]);
+  React.useEffect(()=>{
+    setNumbers(
+      [data.drwtNo1, data.drwtNo2, data.drwtNo3, data.drwtNo4, data.drwtNo5, data.drwtNo6, data.bnusNo]
+    )
+  },[data]);
+  function probability(str:string){
+    const [zeros, digits] = str.split(/([1-9].*)/);
+    return (
+      <CountUp start={0} end={Number(digits)} prefix={zeros} suffix="%" delay={0}>{({ countUpRef }) => (<span ref={countUpRef} />)}</CountUp>
+    )
+  }
   return (
     <div className="LottoOverview">
-      <h3>882회차 로또 통계</h3>
-      <BallBox data={[1,10,20,30,40,45,2]} />
+      <h3>{data.drwNo}회차 로또 통계</h3>
+      <BallBox data={numbers} />
       <div className="dataview">
         <div className="row">
           <span className="name">총 판매액</span>
-          <span style={{fontSize: '10pt'}}>828억1257만3000원</span>
+          <span style={{fontSize: '10pt'}}>{numberToWon(data.totSellamnt)}원</span>
+          <span> 증가 </span>
         </div>
         <div className="row">
           <span className="name">1등 당첨 금액</span>
-          <span style={{fontSize: '10pt'}}>42억1257만3000원</span>
+          <span style={{fontSize: '10pt'}}>{numberToWon(data.firstWinamnt)} 원</span>
         </div>
         <div className="row">
           <span className="name">1등 당첨자 수</span>
-          <span style={{fontSize: '10pt'}}>5명</span>
+          <span style={{fontSize: '10pt'}}>{(data.firstPrzwnerCo)} 명</span>
         </div>
         <div className="row">
           <span className="name">실제 당첨률</span>
-          <span style={{fontSize: '10pt'}}>0.0000001228%</span>
+          <span style={{fontSize: '10pt'}}>{probability((data.firstPrzwnerCo / data.total).toFixed(10))}</span>
         </div>
         <div className="row">
           <span className="name">1등 당첨 확률</span>
-          <span style={{fontSize: '10pt'}}>0.0000001228%</span>
+          <span style={{fontSize: '10pt'}}>{probability((1 / 8145060).toFixed(10))}</span>
         </div>
         <div className="row">
           <span className="name">오차</span>
-          <span style={{fontSize: '10pt'}}>-0.0000000001%</span>
+          <span style={{fontSize: '10pt'}}>{probability(((data.firstPrzwnerCo / data.total) - (1 / 8145060)).toFixed(10))}
+</span>
         </div>
       </div>
 
@@ -68,9 +85,10 @@ const LottoOverview: React.FunctionComponent<Props> = ({}) => {
           align-items: center;
           justify-content: space-between;
           margin-bottom: 8px;
+          padding: 0 32px;
         }
         .LottoOverview > .dataview > .row > .name{
-          color: #5994ce;
+          color: #7FDBFF;
         }
       `}</style>
     </div>

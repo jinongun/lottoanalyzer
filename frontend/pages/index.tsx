@@ -196,7 +196,7 @@ const IndexPage: NextPage<Props> = ({ data }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <LottoOverview />
+      <LottoOverview data={getLatest()} />
       {/* <h3>882회차 로또 통계</h3>
       <p className="date">2019-10-26</p>
       <BallBox data={[1,10,20,30,40,45 ,2]}/> */}
